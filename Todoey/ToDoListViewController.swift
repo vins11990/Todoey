@@ -11,9 +11,15 @@ import UIKit
 class ToDoListViewController: UITableViewController {
     
     var listArray = ["One", "Two", "Three"]
+    
+    var defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "itemArray") as? [String] {
+            listArray = items
+        }
         
         tableView.separatorStyle = .none
     }
@@ -60,6 +66,7 @@ class ToDoListViewController: UITableViewController {
             (action) in
             
             self.listArray.append(textField.text!)
+            self.defaults.set(self.listArray, forKey: "itemArray")
             self.tableView.reloadData()
         }
         
